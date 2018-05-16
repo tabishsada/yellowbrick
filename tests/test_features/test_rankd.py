@@ -135,4 +135,63 @@ class TestRank2D(VisualTestCase, DatasetMixin):
 
         tol = 10 if six.PY2 else 0.1
         self.assert_images_similar(visualizer, tol=tol)
-#
+
+    @pytest.mark.skipif(pd is None, reason="requires pandas")
+    def test_rank2d_pearson_classification(self):
+        """
+        Test Rank2D with pearson on occupancy dataset with pandas DataFrame and Series
+        """
+        df = self.load_pandas("occupancy")
+
+        X = df[[
+            "temperature", "relative humidity", "light", "C02", "humidity"
+        ]]
+        y = df['occupancy']
+
+        # Test the visualizer
+        visualizer = Rank2D(algorithm='pearson')
+        visualizer.fit_transform(X, y)
+        visualizer.poof()
+
+        tol = 10 if six.PY2 else 0.1
+        self.assert_images_similar(visualizer, tol=tol)
+
+    @pytest.mark.skipif(pd is None, reason="requires pandas")
+    def test_rank2d_covariance_classification(self):
+        """
+        Test Rank2D with covariance on occupancy dataset with pandas DataFrame and Series
+        """
+        df = self.load_pandas("occupancy")
+
+        X = df[[
+            "temperature", "relative humidity", "light", "C02", "humidity"
+        ]]
+        y = df['occupancy']
+
+        # Test the visualizer
+        visualizer = Rank2D(algorithm='covariance')
+        visualizer.fit_transform(X, y)
+        visualizer.poof()
+
+        tol = 10 if six.PY2 else 0.1
+        self.assert_images_similar(visualizer, tol=tol)
+
+    @pytest.mark.skipif(pd is None, reason="requires pandas")
+    def test_rank2d_spearman_classification(self):
+        """
+        Test Rank2D with spearman on occupancy dataset with pandas DataFrame and Series
+        """
+        df = self.load_pandas("occupancy")
+
+        X = df[[
+            "temperature", "relative humidity", "light", "C02", "humidity"
+        ]]
+        y = df['occupancy']
+
+        # Test the visualizer
+        visualizer = Rank2D(algorithm='spearman')
+        visualizer.fit_transform(X, y)
+        visualizer.poof()
+
+        tol = 10 if six.PY2 else 0.1
+        self.assert_images_similar(visualizer, tol=tol)
